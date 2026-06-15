@@ -1,7 +1,7 @@
 # Created by Ahmed Ragab Issa.
 Pod::Spec.new do |s|
   s.name             = 'MediaNetFoxSDK'
-  s.version          = '0.0.1'
+  s.version          = '0.0.2'
   s.summary          = 'Fox-shaped vertical-video (Shorts) ad SDK on top of MediaNetAdSDK.'
   s.description      = <<~DESC
     MediaNetFoxSDK interleaves and prefetches ads for vertical-video feeds. It
@@ -30,6 +30,10 @@ Pod::Spec.new do |s|
   s.source            = { :http => "https://github.com/media-net/medianet-fox-sdk/releases/download/#{s.version}/MediaNetFoxSDK.xcframework.zip" }
   s.vendored_frameworks = 'MediaNetFoxSDK.xcframework'
   s.static_framework  = true
+  # Static frameworks don't carry their flat resources into the host app, so the
+  # privacy manifest ships as a CocoaPods resource bundle (the release script
+  # stages MediaNetFoxSDKResources/ alongside the xcframework in the zip).
+  s.resource_bundles  = { 'MediaNetFoxSDKResources' => ['MediaNetFoxSDKResources/*'] }
 
   # AdSDK-flavor renderer is mandatory (publisher-event channel). All three are
   # on CocoaPods Trunk; GoogleMobileAds is used directly for GAM ad sizes.

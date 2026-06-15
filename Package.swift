@@ -1,5 +1,5 @@
 // swift-tools-version: 5.9
-// MediaNetFoxSDK — version 0.0.1
+// MediaNetFoxSDK — version 0.0.2
 
 import PackageDescription
 
@@ -21,8 +21,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "MediaNetFoxSDK",
-            url: "https://github.com/media-net/medianet-fox-sdk/releases/download/0.0.1/MediaNetFoxSDK.xcframework.zip",
-            checksum: "9a7bfcf1729d7c4013cb2f7f5be2f1c1915333ac38d5b42ef3fc4eddaa1139c0"
+            url: "https://github.com/media-net/medianet-fox-sdk/releases/download/0.0.2/MediaNetFoxSDK.xcframework.zip",
+            checksum: "56016c85a451900953ed4da761dd13dbbc7420718e19bcf3b183027c160f916b"
         ),
         .target(
             name: "MediaNetFoxSDKDeps",
