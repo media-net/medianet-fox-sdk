@@ -1,7 +1,7 @@
 # Created by Ahmed Ragab Issa.
 Pod::Spec.new do |s|
   s.name             = 'MediaNetFoxSDK'
-  s.version          = '0.0.2'
+  s.version          = '0.0.3'
   s.summary          = 'Fox-shaped vertical-video (Shorts) ad SDK on top of MediaNetAdSDK.'
   s.description      = <<~DESC
     MediaNetFoxSDK interleaves and prefetches ads for vertical-video feeds. It
@@ -37,7 +37,7 @@ Pod::Spec.new do |s|
 
   # AdSDK-flavor renderer is mandatory (publisher-event channel). All three are
   # on CocoaPods Trunk; GoogleMobileAds is used directly for GAM ad sizes.
-  s.dependency 'MediaNetAdSDK', '~> 0.4'
-  s.dependency 'MediaNetRendererAdSDK', '~> 0.0.20'
+  s.dependency 'MediaNetAdSDK', '~> 0.4.4'
+  s.dependency 'MediaNetRendererAdSDK', '~> 0.0.23'
   s.dependency 'Google-Mobile-Ads-SDK', '~> 12.3'
 end
