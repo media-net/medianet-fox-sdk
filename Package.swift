@@ -1,5 +1,5 @@
 // swift-tools-version: 5.9
-// MediaNetFoxSDK — version 0.0.3
+// MediaNetFoxSDK — version 0.0.4
 
 import PackageDescription
 
@@ -15,14 +15,14 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/media-net/ios-packages", from: "0.4.2"),
+        .package(url: "https://github.com/media-net/ios-packages", exact: "0.4.5"),
         .package(url: "https://github.com/googleads/swift-package-manager-google-mobile-ads", "12.3.0" ..< "13.0.0")
     ],
     targets: [
         .binaryTarget(
             name: "MediaNetFoxSDK",
-            url: "https://github.com/media-net/medianet-fox-sdk/releases/download/0.0.3/MediaNetFoxSDK.xcframework.zip",
-            checksum: "47ab5700e64f6d7abf420b02a912b91fe863c7d1796debbb5af6cc2cfc3aa940"
+            url: "https://github.com/media-net/medianet-fox-sdk/releases/download/0.0.4/MediaNetFoxSDK.xcframework.zip",
+            checksum: "698f4658d3fab43c599252aeebfac2a5501ea8cb5f62300fdd2619d900535745"
         ),
         .target(
             name: "MediaNetFoxSDKDeps",
