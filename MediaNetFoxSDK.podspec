@@ -1,7 +1,7 @@
 # Created by Ahmed Ragab Issa.
 Pod::Spec.new do |s|
   s.name             = 'MediaNetFoxSDK'
-  s.version          = '0.0.4'
+  s.version          = '0.0.5'
   s.summary          = 'Fox-shaped vertical-video (Shorts) ad SDK on top of MediaNetAdSDK.'
   s.description      = <<~DESC
     MediaNetFoxSDK interleaves and prefetches ads for vertical-video feeds. It
@@ -37,11 +37,12 @@ Pod::Spec.new do |s|
 
   # AdSDK-flavor renderer is mandatory (publisher-event channel). All three are
   # on CocoaPods Trunk; GoogleMobileAds is used directly for GAM ad sizes.
-  # Exact pins (not floors): 0.4.5 carries the re-signed MNPrebidMobile that
-  # fixes the iOS 26 simulator CODESIGNING/Invalid Page crash, and 0.0.23 is the
-  # matching renderer. Exact-pinning guarantees consumers resolve this tested
-  # combination rather than silently picking a different patch.
-  s.dependency 'MediaNetAdSDK', '0.4.5'
+  # Exact pins (not floors): 0.4.6 carries the MNPrebidMobile with the unique
+  # net.media.MNPrebidMobile bundle id that fixes the org.prebid.mobile install
+  # collision with a publisher's vanilla PrebidMobile, and 0.0.23 is the matching
+  # renderer. Exact-pinning guarantees consumers resolve this tested combination
+  # rather than silently picking a different patch.
+  s.dependency 'MediaNetAdSDK', '0.4.6'
   s.dependency 'MediaNetRendererAdSDK', '0.0.23'
   s.dependency 'Google-Mobile-Ads-SDK', '~> 12.3'
 end
