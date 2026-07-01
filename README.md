@@ -8,21 +8,33 @@ container with a built-in skip header. It layers on top of
 [`MediaNetAdSDK`](https://github.com/media-net/ios-packages) (the Prebid wrapper)
 plus the AdSDK-flavor `MediaNetRendererAdSDK` (Media.net's custom renderer).
 
+This is the iOS counterpart of the Android `MediaNetFoxSDK`.
+
+## Structure
+
+```
+MediaNetFoxSDK/
+├── Package.swift                 # standalone package (consumes published deps)
+├── Classes/
+│   ├── MediaNetFoxSDK.swift      # public entry point (configure/isAd/getAd/session)
+│   ├── Public/                   # AdError, AdFinishReason, AdLoadState, FoxErrors
+│   ├── Config/                   # FoxOtaConfig (parser) + FoxConfigApi (EMS fetch)
+│   ├── Views/                    # FoxBannerView + SkipHeaderView
+│   └── Internal/                 # FoxScheduler + FoxDependencies (DI seams)
+└── README.md
+```
+
 ## Dependencies
 
-As of **0.0.5**, the published `Package.swift` / podspec pin the graph explicitly:
-
-- **`MediaNetAdSDK` `0.4.6`** (exact) — Prebid wrapper; provides `BannerAdView`, the renderer bridge, `MediaNetAdEvent` / `MediaNetPluginEventDelegate`. This line ships `MNPrebidMobile` with the unique `net.media.MNPrebidMobile` bundle id, which fixes the `org.prebid.mobile` install collision when a host app also integrates the vanilla PrebidMobile SDK.
-- **`MediaNetRendererAdSDK` `0.0.23`** (exact) — `MNR_ADSDK_FLAVOR` renderer; registers via `MediaNetAdSDKClient`.
-- **`GoogleMobileAds`** — SPM: `12.3.0 ..< 13.0.0`; CocoaPods: `Google-Mobile-Ads-SDK` `~> 12.3`.
-- A single shared **`OMSDK_Medianet`** (Open Measurement) across the graph (via `ios-packages`).
+- `MediaNetAdSDK` `~> 0.4` (provides `BannerAdView`, the renderer bridge, `MediaNetAdEvent`/`MediaNetPluginEventDelegate`).
+- `MediaNetRendererAdSDK` `~> 0.0.20` (the `MNR_ADSDK_FLAVOR` renderer; registers via `MediaNetAdSDKClient`).
+- `GoogleMobileAds` `12.x` (GAM event handler / ad sizes) — comes in transitively.
+- A single shared `OMSDK_Medianet` (Open Measurement) across the graph.
 
 ## Versioning
 
-- Current release: **`0.0.5`**.
-- **SPM:** `ios-packages` is pinned with **`exact: "0.4.6"`** so consumers always resolve the tested wrapper + `MNPrebidMobile` pair. Bump FoxSDK when you intentionally move that pin.
-- **CocoaPods:** `MediaNetAdSDK` and `MediaNetRendererAdSDK` use exact version requirements matching the SPM graph.
-- Source lives in the wrapper repo; binaries and consumer manifests ship from this repo (SPM) and CocoaPods Trunk.
+- Current: `0.0.1` (pre-release).
+- Lockstepped with `MediaNetAdSDK`: a FoxSDK release targets a compatible wrapper version (today `0.4.x`). Source lives in the wrapper repo; published from the dedicated `medianet-fox-sdk` consumer repo (SPM) and CocoaPods Trunk.
 
 ## Environment / constraints
 
@@ -35,15 +47,13 @@ As of **0.0.5**, the published `Package.swift` / podspec pin the graph explicitl
 
 Swift Package Manager:
 ```swift
-.package(url: "https://github.com/media-net/medianet-fox-sdk.git", from: "0.0.5")
+.package(url: "https://github.com/media-net/medianet-fox-sdk.git", from: "0.0.1")
 ```
-Use `exact: "0.0.5"` if you need a bit-for-bit reproducible resolve.
-
 CocoaPods:
 ```ruby
-pod 'MediaNetFoxSDK', '~> 0.0.5'
+pod 'MediaNetFoxSDK'
 ```
-`MediaNetAdSDK`, `MediaNetRendererAdSDK`, and `Google-Mobile-Ads-SDK` are declared by the podspec (exact where applicable); Trunk / SPM supply the binaries.
+`MediaNetAdSDK`, `MediaNetRendererAdSDK`, and `GoogleMobileAds` resolve transitively (all on public Trunk / SPM).
 
 ## iOS platform setup (host app)
 
@@ -88,13 +98,27 @@ MediaNetFoxSDKClient.shared.userDidChangeSlot(at: index, forward: true)
 MediaNetFoxSDKClient.shared.userDidLeaveShorts()
 ```
 
+## References / docs
+
+- Integration guide: `docs/ads-sdk/ios/integration-guides/medianet-foxsdk.md` (docs repo).
+- Android parity: `MediaNetFoxSDK` (Android wrapper repo).
+- Publisher events: `docs/publisher-events-ios.md`.
+
 ## Design decisions
 
 - **Deferred success** for `getAd(for:)` (publisher emits `.success` only after load; replays a warm view's loaded state on subscribe).
 - **Not idempotent**: each `getAd` call yields the next ad in rotation; `position` is informational.
 - **Depth-1 warm pool**, single-owner state machine; cancel-before-terminal returns the in-flight ad to the warm slot.
 - **Closures** (not a delegate) per the API spec; `AdError`/`AdFinishReason` value types.
-- **`didDisplayAd` + skip countdown** are sourced from the `MediaNetAdEvent.adRendered` plugin event; `.completed` from `adComplete` (Prebid-won outstream video only).
-- **ARC teardown** — call `FoxBannerView.destroy()` when recycling cells or tearing down a slot so timers and load-state callbacks are cleared.
+- **`didDisplayAd` + skip countdown** are sourced from the `MediaNetAdEvent.adRendered` plugin event; `.completed` from `adComplete` (Prebid-won outstream video only). GAM-served direct/house/AdX creatives emit no plugin events, so the skip countdown falls back to starting when the loaded creative first comes on screen — suppressed for plugin-won ads, which announce themselves with `bidWon`.
+- **`contentInsets`** (`UIEdgeInsets`) on `FoxBannerView` insets the ad creative + its bottom chrome (CTA / AdChoices) within the view; set `.bottom` to keep the ad clear of a host tab bar. The skip header stays pinned to the top.
+- **ARC `deinit`** teardown; no public `destroy()`.
 - `configure` callback param is named `completion:` (idiomatic Swift; the spec's `sdkInitListener` name was not adopted).
 
+## TODOs / known gaps
+
+- `.completed` and `didDisplayAd` depend on the renderer publisher-event channel (shipped in `MediaNetAdSDK 0.4.0` / `MediaNetRendererAdSDK 0.0.20`); runtime smoke test recommended.
+- Interstitial publisher events are blocked upstream (`InterstitialRenderingAdUnit` has no `setPluginEventDelegate`).
+- `FoxConfigApi` uses `URLSession` directly (FoxSDK can't reuse the wrapper's internal `APIClient`); verify EMS response decoding against live headers.
+- `PrivacyInfo.xcprivacy` + signing (cross-framework) tracked separately; OTA retry/offline, accessibility, and localization deferred.
+- Example app and full unit-test suite are pending.
