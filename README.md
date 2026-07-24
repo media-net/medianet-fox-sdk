@@ -5,21 +5,23 @@
 A Fox-shaped iOS ad SDK for vertical-video (Shorts-style) feeds. Content slides
 are interleaved with ads, prefetched against the next slot, and rendered in a
 container with a built-in skip header. It layers on top of
-[`MediaNetAdSDK`](https://github.com/media-net/ios-packages) (the Prebid wrapper)
-plus the AdSDK-flavor `MediaNetRendererAdSDK` (Media.net's custom renderer).
+[`MediaNetAdSDK`](https://github.com/media-net/MediaNetAdSDK-dist) (the Prebid wrapper)
+plus the AdSDK-flavor `MediaNetRendererAdSDK` (Media.net's custom renderer,
+from [`ios-packages`](https://github.com/media-net/ios-packages)).
 
 
 ## Dependencies
 
-- `MediaNetAdSDK` `~> 0.4` (provides `BannerAdView`, the renderer bridge, `MediaNetAdEvent`/`MediaNetPluginEventDelegate`).
-- `MediaNetRendererAdSDK` `~> 0.0.20` (the `MNR_ADSDK_FLAVOR` renderer; registers via `MediaNetAdSDKClient`).
+- `MediaNetAdSDK` (provides `BannerAdView`, the renderer bridge, `MediaNetAdEvent`/`MediaNetPluginEventDelegate`) — from [`MediaNetAdSDK-dist`](https://github.com/media-net/MediaNetAdSDK-dist).
+- `MediaNetRendererAdSDK` (the `MNR_ADSDK_FLAVOR` renderer; registers via `MediaNetAdSDKClient`) — from [`ios-packages`](https://github.com/media-net/ios-packages) (renderer-only from `0.5.0`).
 - `GoogleMobileAds` `12.x` (GAM event handler / ad sizes) — comes in transitively.
-- A single shared `OMSDK_Medianet` (Open Measurement) across the graph.
+- A single shared `OMSDK_Medianet` (Open Measurement) across the graph — from [`OMSDK-Medianet-dist`](https://github.com/media-net/OMSDK-Medianet-dist), pulled transitively by both packages above.
 
 ## Versioning
 
 - Current release: **`0.0.6`**.
-- **SPM:** `ios-packages` is pinned with **`exact: "0.4.7"`** so consumers always resolve the tested wrapper + `MNPrebidMobile` pair. Bump FoxSDK when you intentionally move that pin.
+- **SPM:** the wrapper comes from `MediaNetAdSDK-dist` pinned with **`exact: "0.4.8"`** so consumers always resolve the tested wrapper + `MNPrebidMobile` pair. Bump FoxSDK when you intentionally move that pin.
+- **SPM:** the AdSDK-flavor renderer comes from `ios-packages` pinned with **`exact: "0.5.0"`** — the matching renderer build for the wrapper pin above.
 - **CocoaPods:** `MediaNetAdSDK` and `MediaNetRendererAdSDK` use exact version requirements matching the SPM graph.
 - Source lives in the wrapper repo; binaries and consumer manifests ship from this repo (SPM) and CocoaPods Trunk.
 
