@@ -1,5 +1,5 @@
 // swift-tools-version: 5.9
-// MediaNetFoxSDK — version 0.0.7
+// MediaNetFoxSDK — version 0.0.8
 //
 // Two-pin graph (repo split): MediaNetAdSDK from MediaNetAdSDK-dist, the
 // AdSDK-flavor renderer from ios-packages (renderer-only from 0.5.0). Both
@@ -26,8 +26,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "MediaNetFoxSDK",
-            url: "https://github.com/media-net/medianet-fox-sdk/releases/download/0.0.7/MediaNetFoxSDK.xcframework.zip",
-            checksum: "7e7ad440d04640e0c96de4ecdc0b10f7503cc51177c755d7ba7ea80c38c7fb4d"
+            url: "https://github.com/media-net/medianet-fox-sdk/releases/download/0.0.8/MediaNetFoxSDK.xcframework.zip",
+            checksum: "afa1e8fb344656419007a8edc9488a559554897cc9c27ce70d15dbfccfe5ca11"
         ),
         .target(
             name: "MediaNetFoxSDKDeps",

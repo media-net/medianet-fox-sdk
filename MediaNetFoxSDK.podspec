@@ -1,7 +1,7 @@
 # Created by Ahmed Ragab Issa.
 Pod::Spec.new do |s|
   s.name             = 'MediaNetFoxSDK'
-  s.version          = '0.0.7'
+  s.version          = '0.0.8'
   s.summary          = 'Fox-shaped vertical-video (Shorts) ad SDK on top of MediaNetAdSDK.'
   s.description      = <<~DESC
     MediaNetFoxSDK interleaves and prefetches ads for vertical-video feeds. It
