@@ -19,9 +19,9 @@ from [`ios-packages`](https://github.com/media-net/ios-packages)).
 
 ## Versioning
 
-- Current release: **`0.0.9`**.
-- **SPM:** the wrapper comes from `MediaNetAdSDK-dist` pinned with **`exact: "0.4.9"`** so consumers always resolve the tested wrapper + `MNPrebidMobile` pair. Bump FoxSDK when you intentionally move that pin.
-- **SPM:** the AdSDK-flavor renderer comes from `ios-packages` pinned with **`exact: "0.5.0"`** — the matching renderer build for the wrapper pin above.
+- Current release: **`1.0.0`**.
+- **SPM:** the wrapper comes from `MediaNetAdSDK-dist` pinned with **`exact: "1.0.0"`** so consumers always resolve the tested wrapper + `MNPrebidMobile` pair. Bump FoxSDK when you intentionally move that pin.
+- **SPM:** the AdSDK-flavor renderer comes from `ios-packages` pinned with **`exact: "1.0.0"`** — the matching renderer build for the wrapper pin above.
 - **CocoaPods:** `MediaNetAdSDK` and `MediaNetRendererAdSDK` use exact version requirements matching the SPM graph.
 - Source lives in the wrapper repo; binaries and consumer manifests ship from this repo (SPM) and CocoaPods Trunk.
 
@@ -37,13 +37,13 @@ from [`ios-packages`](https://github.com/media-net/ios-packages)).
 
 Swift Package Manager:
 ```swift
-.package(url: "https://github.com/media-net/medianet-fox-sdk.git", from: "0.0.9")
+.package(url: "https://github.com/media-net/medianet-fox-sdk.git", from: "1.0.0")
 ```
-Use `exact: "0.0.9"` if you need a bit-for-bit reproducible resolve.
+Use `exact: "1.0.0"` if you need a bit-for-bit reproducible resolve.
 
 CocoaPods:
 ```ruby
-pod 'MediaNetFoxSDK', '~> 0.0.9'
+pod 'MediaNetFoxSDK', '~> 1.0.0'
 ```
 `MediaNetAdSDK`, `MediaNetRendererAdSDK`, and `GoogleMobileAds` resolve transitively (all on public Trunk / SPM).
 
