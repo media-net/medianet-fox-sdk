@@ -1,7 +1,7 @@
 # Created by Ahmed Ragab Issa.
 Pod::Spec.new do |s|
   s.name             = 'MediaNetFoxSDK'
-  s.version          = '1.0.1'
+  s.version          = '1.0.2'
   s.summary          = 'Fox-shaped vertical-video (Shorts) ad SDK on top of MediaNetAdSDK.'
   s.description      = <<~DESC
     MediaNetFoxSDK interleaves and prefetches ads for vertical-video feeds. It
@@ -43,7 +43,7 @@ Pod::Spec.new do |s|
   # MediaNetAdSDK-dist; MediaNetRendererAdSDK 0.5.0 is the first renderer-only
   # ios-packages release. These pins are stamped by the release script from the
   # same variables as the SPM pins (they drifted when hand-maintained).
-  s.dependency 'MediaNetAdSDK', '1.0.1'
-  s.dependency 'MediaNetRendererAdSDK', '1.0.0'
+  s.dependency 'MediaNetAdSDK', '1.0.2'
+  s.dependency 'MediaNetRendererAdSDK', '1.0.2'
   s.dependency 'Google-Mobile-Ads-SDK', '~> 12.3'
 end
