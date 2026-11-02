@@ -41,11 +41,15 @@ Swift Package Manager:
 ```
 Use `exact: "1.1.0"` if you need a bit-for-bit reproducible resolve.
 
-CocoaPods:
+CocoaPods: `1.1.0` isn't on CocoaPods Trunk, so name each Media.net pod by its podspec on the release tag:
 ```ruby
-pod 'MediaNetFoxSDK', '~> 1.1.0'
+pod 'MediaNetFoxSDK',        :podspec => 'https://raw.githubusercontent.com/media-net/medianet-fox-sdk/1.1.0/MediaNetFoxSDK.podspec'
+pod 'MediaNetAdSDK',         :podspec => 'https://raw.githubusercontent.com/media-net/MediaNetAdSDK-dist/v1.1.0/MediaNetAdSDK.podspec'
+pod 'MNPrebidMobile',        :podspec => 'https://raw.githubusercontent.com/media-net/MediaNetAdSDK-dist/v1.1.0/MNPrebidMobile.podspec'
+pod 'MediaNetRendererAdSDK', :podspec => 'https://raw.githubusercontent.com/media-net/ios-packages/v1.1.0/MediaNetRendererAdSDK.podspec'
+pod 'MediaNetRendererCore',  :podspec => 'https://raw.githubusercontent.com/media-net/ios-packages/v1.1.0/MediaNetRendererCore.podspec'
 ```
-`MediaNetAdSDK`, `MediaNetRendererAdSDK`, and `GoogleMobileAds` resolve transitively (all on public Trunk / SPM).
+List all five: CocoaPods resolves any pod not named in your Podfile from Trunk, so leaving one out fails with `could not find compatible versions`. `Google-Mobile-Ads-SDK` and `OMSDK_Medianet` still come from Trunk.
 
 ## iOS platform setup (host app)
 
